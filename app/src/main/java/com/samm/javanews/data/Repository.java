@@ -21,15 +21,8 @@ import retrofit2.Response;
 
 public class Repository {
 
-//    Context context;
-//
-//    public Repository(Context context){
-//        this.context = context;
-//    }
-
     public MutableLiveData<List<NewsItem>> getDataList(
-            String searchText,
-            ProgressDialog progressDialog
+            String searchText
     ){
         Api service = RetrofitClientInstance.getRetrofitInstance().create(Api.class);
 
@@ -45,24 +38,16 @@ public class Repository {
             public void onResponse
             (@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response)
             {
-                //progressDialog.dismiss();
                 assert response.body() != null;
-                //generateDataList(response.body().articles);
                 newsItems.setValue(response.body().articles);
-//                newsItems = response.body().articles;
-               // getData(response.body().articles);
             }
 
             // When ERROR
             @Override
             public void onFailure
-            (@NonNull Call<NewsResponse> call, Throwable t)
+            (@NonNull Call<NewsResponse> call, @NonNull Throwable t)
             {
-                //progressDialog.dismiss();
                 newsItems.setValue(null);
-//                Toast.makeText(,
-//                        "Something went wrong...",
-//                        Toast.LENGTH_SHORT).show();
                 Log.d("ERROR", t.toString());
             }
         });

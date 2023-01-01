@@ -14,8 +14,8 @@ public class NewsViewModel extends ViewModel {
 
     Repository newsRepository = new Repository();
 
-    public MutableLiveData<List<NewsItem>> getData(String search, ProgressDialog progressDialog) {
-        return this.newsRepository.getDataList(search, progressDialog);
+    public MutableLiveData<List<NewsItem>> getData(String search) {
+        return this.newsRepository.getDataList(search);
     }
 
     // Move this to the view model or something

@@ -22,12 +22,9 @@ import java.util.List;
 
 /*
     Todo:
-        - Back to top FAB
-        - WebView Fragment when clicked - not chrome
         - Change the Image when error to an image that says error or something
         - Date not displayed when title is too long
-        - Sort the list
-        - Create Github Repository
+        - Sorting
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -37,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayout searchBar;
     private NewsViewModel viewModel;
-    private FloatingActionButton backToTop;
-    private ImageButton searchButton;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -46,27 +41,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        searchField = (EditText) findViewById(R.id.search_field);
+        searchField = findViewById(R.id.search_field);
         recyclerView = findViewById(R.id.recyclerview);
         searchBar = findViewById(R.id.search_bar);
         viewModel = new ViewModelProvider(this).get(NewsViewModel.class);
-        backToTop = findViewById(R.id.back_to_top_button);
-        searchButton = findViewById(R.id.search_button);
+        FloatingActionButton backToTop = findViewById(R.id.back_to_top_button);
+        ImageButton searchButton = findViewById(R.id.search_button);
 
-        searchButton.setOnClickListener( v -> {
+        searchButton.setOnClickListener(v -> {
             String searchText = searchField.getText().toString();
             createProgressDialog();
             observer(searchText);
             ViewHider.hideKeyboard(this);
         });
-
-        backToTop.setOnClickListener( v-> {
-            recyclerView.smoothScrollToPosition(0);
-        });
+        backToTop.setOnClickListener(v-> recyclerView.smoothScrollToPosition(0));
     }
 
     private void observer(String search){
-        viewModel.getData(search, progressDialog).observe(this, list -> {
+        viewModel.getData(search).observe(this, list -> {
             if (list.isEmpty()){
                 progressDialog.dismiss();
             }
